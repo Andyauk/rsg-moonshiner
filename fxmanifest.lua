@@ -7,7 +7,7 @@ description 'rsg-moonshiner'
 
 client_script {
 	'client/client.lua',
-	'config.lua'
+	'client/npc.lua',
 }
 
 server_script {
@@ -15,7 +15,13 @@ server_script {
 	'@oxmysql/lib/MySQL.lua',
 }
 
+shared_scripts {
+	'config.lua'
+}
+
 dependency 'qr-core'
 dependency 'qr-menu'
+dependency 'qr-input'
+dependency 'map-moonshineshacks'
 
 lua54 'yes'

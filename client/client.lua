@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
 				awayFromObject = false
 				DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Brew [J]")
 				if IsControlJustReleased(0, QRCore.Shared.Keybinds['J']) then
-					TriggerEvent('rsg-moonshiner:client:menu')
+					TriggerEvent('rsg-moonshiner:client:craftmenu')
 				end
 			end
 		else
@@ -95,7 +95,7 @@ Citizen.CreateThread(function()
 end)
 
 -- moonshine menu
-RegisterNetEvent('rsg-moonshiner:client:menu', function(data)
+RegisterNetEvent('rsg-moonshiner:client:craftmenu', function(data)
     exports['qr-menu']:openMenu({
         {
             header = "| Moonshine |",
@@ -137,3 +137,78 @@ AddEventHandler("rsg-moonshiner:client:moonshine", function()
 		QRCore.Functions.Notify('you don\'t have the ingredients to make this!', 'error')
 	end
 end)
+
+-- sell moonshine vendor
+Citizen.CreateThread(function()
+    for k,v in pairs(Config.MoonshineVendor) do
+        exports['qr-core']:createPrompt(v.uid, v.pos, QRCore.Shared.Keybinds['J'], v.header, {
+            type = 'client',
+            event = 'rsg-moonshiner:client:sellmenu',
+            args = {v.uid}
+        })  
+    end
+end)
+
+RegisterNetEvent('rsg-moonshiner:client:sellmenu') 
+AddEventHandler('rsg-moonshiner:client:sellmenu', function(menuid)
+    local shoptable = {
+        {
+            header = "| "..getMenuTitle(menuid).." |",
+            isMenuHeader = true,
+        },
+    }
+    local closemenu = {
+        header = "Close menu",
+        txt = '', 
+        params = {
+            event = 'qbr-menu:closeMenu',
+        }
+    }
+    for k,v in pairs(Config.MoonshineVendor) do
+        if v.uid == menuid then
+            for g,f in pairs(v.shopdata) do
+                local lineintable = {
+					header = "<img src=nui://qr-inventory/html/images/"..f.image.." width=20px>"..f.title..' (price $'..f.price..')',
+                    params = {
+                        event = 'rsg-moonshiner:client:sellcount',
+                        args = {menuid, f}
+                    }
+                }
+                table.insert(shoptable, lineintable)
+            end 
+        end
+    end
+    table.insert(shoptable,closemenu)
+	exports['qr-menu']:openMenu(shoptable)
+end)
+
+RegisterNetEvent('rsg-moonshiner:client:sellcount') 
+AddEventHandler('rsg-moonshiner:client:sellcount', function(arguments)
+    local menuid = arguments[1]
+    local data = arguments[2]
+    local inputdata = exports['qr-input']:ShowInput({
+        header = "Enter the number of 1pc / "..data.price.." $",
+		submitText = "sell",
+		inputs = {
+            {
+                text = data.description,
+                input = "amount",
+                type = "number",
+                isRequired = true
+            },
+		}
+    })
+    if inputdata ~= nil then
+        for k,v in pairs(inputdata) do
+			TriggerServerEvent('rsg-moonshiner:server:sellitem', v,data)
+        end
+    end
+end)
+
+function getMenuTitle(menuid)
+    for k,v in pairs(Config.MoonshineVendor)  do
+        if menuid == v.uid then
+            return v.header
+        end
+    end
+end
