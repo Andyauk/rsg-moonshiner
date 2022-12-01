@@ -11,12 +11,7 @@ Config.MoonshineVendor = {
         uid = "lemoyne-moonshine",  -- must be unique
         header = "Lemoyne Moonshine Vendor", -- menu header
         pos = vector3(1789.4877, -817.1411, 189.40167), -- location of sell shop
-        ped = { -- npc settings
-            enable = true,
-            model = "CS_MP_MOONSHINER",
-            pos = vector3(1790.744, -818.6369, 189.40165),
-            head = 27.402536,
-        },
+        showmarker = true,
         blip = { -- blip settings
             enable = false,
             blipSprite = 'blip_moonshine',
@@ -29,7 +24,7 @@ Config.MoonshineVendor = {
                 description = "sell moonshine",
                 price = 6,
                 item = "moonshine",
-				image = "moonshine.png"
+                image = "moonshine.png"
             },
         },
     },
@@ -37,12 +32,7 @@ Config.MoonshineVendor = {
         uid = "cattailpond-moonshine",  -- must be unique
         header = "Cattail Pond Moonshine Vendor", -- menu header
         pos = vector3(-1091.136, 711.75817, 81.036636), -- location of sell shop
-        ped = { -- npc settings
-            enable = true,
-            model = "CS_MP_MOONSHINER",
-            pos = vector3(-1091.696, 713.57281, 81.036384),
-            head = 196.19924,
-        },
+        showmarker = true,
         blip = { -- blip settings
             enable = false,
             blipSprite = 'blip_moonshine',
@@ -55,7 +45,7 @@ Config.MoonshineVendor = {
                 description = "sell moonshine",
                 price = 6,
                 item = "moonshine",
-				image = "moonshine.png"
+                image = "moonshine.png"
             },
         },
     },
@@ -63,12 +53,7 @@ Config.MoonshineVendor = {
         uid = "newaustin-moonshine",  -- must be unique
         header = "New Austin Moonshine Vendor", -- menu header
         pos = vector3(-2775.057, -3046.294, -11.89815), -- location of sell shop
-        ped = { -- npc settings
-            enable = true,
-            model = "CS_MP_MOONSHINER",
-            pos = vector3(-2773.838, -3044.387, -11.89815),
-            head = 146.75404,
-        },
+        showmarker = true,
         blip = { -- blip settings
             enable = false,
             blipSprite = 'blip_moonshine',
@@ -81,7 +66,7 @@ Config.MoonshineVendor = {
                 description = "sell moonshine",
                 price = 6,
                 item = "moonshine",
-				image = "moonshine.png"
+                image = "moonshine.png"
             },
         },
     },
@@ -89,12 +74,7 @@ Config.MoonshineVendor = {
         uid = "hanover-moonshine",  -- must be unique
         header = "Hanover Moonshine Vendor", -- menu header
         pos = vector3(1629.6535, 828.49346, 121.74415), -- location of sell shop
-        ped = { -- npc settings
-            enable = true,
-            model = "CS_MP_MOONSHINER",
-            pos = vector3(1631.6804, 827.44628, 121.74415),
-            head = 60.735931,
-        },
+        showmarker = true,
         blip = { -- blip settings
             enable = false,
             blipSprite = 'blip_moonshine',
@@ -107,7 +87,7 @@ Config.MoonshineVendor = {
                 description = "sell moonshine",
                 price = 6,
                 item = "moonshine",
-				image = "moonshine.png"
+                image = "moonshine.png"
             },
         },
     },
@@ -115,12 +95,7 @@ Config.MoonshineVendor = {
         uid = "manzanitapost-moonshine",  -- must be unique
         header = "Manzanita Post Moonshine Vendor", -- menu header
         pos = vector3(-1864.511, -1727.998, 86.057472), -- location of sell shop
-        ped = { -- npc settings
-            enable = true,
-            model = "CS_MP_MOONSHINER",
-            pos = vector3(-1866.421, -1726.562, 86.057472),
-            head = 226.45497,
-        },
+        showmarker = true,
         blip = { -- blip settings
             enable = false,
             blipSprite = 'blip_moonshine',
@@ -133,9 +108,9 @@ Config.MoonshineVendor = {
                 description = "sell moonshine",
                 price = 6,
                 item = "moonshine",
-				image = "moonshine.png"
+                image = "moonshine.png"
             },
         },
     },
-	
+    
 }

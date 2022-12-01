@@ -32,66 +32,66 @@ AddEventHandler('rsg-moonshiner:client:moonshinekit', function(itemName)
         DeleteObject(moonshinekit)
         moonshinekit = 0
     else
-		local playerPed = PlayerPedId()
-		TaskStartScenarioInPlace(playerPed, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 10000, true, false, false, false)
-		Wait(10000)
-		ClearPedTasks(playerPed)
-		SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
-		--local pos = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.75, -1.55))
-		local pos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.75, -1.55)
-		--local modelHash = `p_still03x`
-		local modelHash = GetHashKey(Config.Prop)
-		if not HasModelLoaded(modelHash) then
-			-- If the model isnt loaded we request the loading of the model and wait that the model is loaded
-			RequestModel(modelHash)
-			while not HasModelLoaded(modelHash) do
-				Wait(1)
-			end
-		end
-		local prop = CreateObject(modelHash, pos, true)
-		SetEntityHeading(prop, GetEntityHeading(PlayerPedId()))
-		PlaceObjectOnGroundProperly(prop)
-		PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
-		moonshinekit = prop
-	end
+        local playerPed = PlayerPedId()
+        TaskStartScenarioInPlace(playerPed, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 10000, true, false, false, false)
+        Wait(10000)
+        ClearPedTasks(playerPed)
+        SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
+        --local pos = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.75, -1.55))
+        local pos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.75, -1.55)
+        --local modelHash = `p_still03x`
+        local modelHash = GetHashKey(Config.Prop)
+        if not HasModelLoaded(modelHash) then
+            -- If the model isnt loaded we request the loading of the model and wait that the model is loaded
+            RequestModel(modelHash)
+            while not HasModelLoaded(modelHash) do
+                Wait(1)
+            end
+        end
+        local prop = CreateObject(modelHash, pos, true)
+        SetEntityHeading(prop, GetEntityHeading(PlayerPedId()))
+        PlaceObjectOnGroundProperly(prop)
+        PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
+        moonshinekit = prop
+    end
 end, false)
 
 -- create moonshine still / destroy (police only)
 Citizen.CreateThread(function()
-	while true do
-		Wait(0)
-		local pos, awayFromObject = GetEntityCoords(PlayerPedId()), true
-		local moonshineObject = GetClosestObjectOfType(pos, 5.0, GetHashKey(Config.Prop), false, false, false)
-		if moonshineObject ~= 0 and PlayerJob.name ~= Config.LawJobName then
-			local objectPos = GetEntityCoords(moonshineObject)
-			if #(pos - objectPos) < 3.0 then
-				awayFromObject = false
-				DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Brew [J]")
-				if IsControlJustReleased(0, QRCore.Shared.Keybinds['J']) then
-					TriggerEvent('rsg-moonshiner:client:craftmenu')
-				end
-			end
-		else
-			local objectPos = GetEntityCoords(moonshineObject)
-			if #(pos - objectPos) < 3.0 then
-				awayFromObject = false
-				DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Destroy [J]")
-				if IsControlJustReleased(0, QRCore.Shared.Keybinds['J']) then
-					local player = PlayerPedId()
-					TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 5000, true, false, false, false)
-					Wait(5000)
-					ClearPedTasks(player)
-					SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
-					DeleteObject(moonshineObject)
-					PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
-					QRCore.Functions.Notify('moonshine destroyed!', 'primary')
-				end
-			end
-		end
-		if awayFromObject then
-			Wait(1000)
-		end
-	end
+    while true do
+        Wait(0)
+        local pos, awayFromObject = GetEntityCoords(PlayerPedId()), true
+        local moonshineObject = GetClosestObjectOfType(pos, 5.0, GetHashKey(Config.Prop), false, false, false)
+        if moonshineObject ~= 0 and PlayerJob.name ~= Config.LawJobName then
+            local objectPos = GetEntityCoords(moonshineObject)
+            if #(pos - objectPos) < 3.0 then
+                awayFromObject = false
+                DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Brew [J]")
+                if IsControlJustReleased(0, QRCore.Shared.Keybinds['J']) then
+                    TriggerEvent('rsg-moonshiner:client:craftmenu')
+                end
+            end
+        else
+            local objectPos = GetEntityCoords(moonshineObject)
+            if #(pos - objectPos) < 3.0 then
+                awayFromObject = false
+                DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Destroy [J]")
+                if IsControlJustReleased(0, QRCore.Shared.Keybinds['J']) then
+                    local player = PlayerPedId()
+                    TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 5000, true, false, false, false)
+                    Wait(5000)
+                    ClearPedTasks(player)
+                    SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
+                    DeleteObject(moonshineObject)
+                    PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
+                    QRCore.Functions.Notify('moonshine destroyed!', 'primary')
+                end
+            end
+        end
+        if awayFromObject then
+            Wait(1000)
+        end
+    end
 end)
 
 -- moonshine menu
@@ -106,7 +106,7 @@ RegisterNetEvent('rsg-moonshiner:client:craftmenu', function(data)
             txt = "1 x Sugar 1 x Water and 1 x Corn",
             params = {
                 event = 'rsg-moonshiner:client:moonshine',
-				isServer = false,
+                isServer = false,
             }
         },
         {
@@ -122,20 +122,20 @@ end)
 -- make moonshine
 RegisterNetEvent("rsg-moonshiner:client:moonshine")
 AddEventHandler("rsg-moonshiner:client:moonshine", function()
-	local hasItem1 = QRCore.Functions.HasItem('sugar', 1)
-	local hasItem2 = QRCore.Functions.HasItem('corn', 1)
-	local hasItem3 = QRCore.Functions.HasItem('water', 1)
-	if hasItem1 and hasItem2 and hasItem3 then
-		local player = PlayerPedId()
-		TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), Config.BrewTime, true, false, false, false)
-		Wait(Config.BrewTime)
-		ClearPedTasks(player)
-		SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
-		TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
-		PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
-	else
-		QRCore.Functions.Notify('you don\'t have the ingredients to make this!', 'error')
-	end
+    local hasItem1 = QRCore.Functions.HasItem('sugar', 1)
+    local hasItem2 = QRCore.Functions.HasItem('corn', 1)
+    local hasItem3 = QRCore.Functions.HasItem('water', 1)
+    if hasItem1 and hasItem2 and hasItem3 then
+        local player = PlayerPedId()
+        TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), Config.BrewTime, true, false, false, false)
+        Wait(Config.BrewTime)
+        ClearPedTasks(player)
+        SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
+        TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
+        PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
+    else
+        QRCore.Functions.Notify('you don\'t have the ingredients to make this!', 'error')
+    end
 end)
 
 -- sell moonshine vendor
@@ -146,6 +146,19 @@ Citizen.CreateThread(function()
             event = 'rsg-moonshiner:client:sellmenu',
             args = {v.uid}
         })  
+    end
+end)
+
+-- draw marker if set to true in config
+CreateThread(function()
+    while true do
+        local sleep = 0
+        for k,v in pairs(Config.MoonshineVendor) do
+            if v.showmarker == true then
+                Citizen.InvokeNative(0x2A32FAA57B937173, 0x07DCE236, v.pos, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 215, 0, 155, false, false, false, 1, false, false, false)
+            end
+        end
+        Wait(sleep)
     end
 end)
 
@@ -168,7 +181,7 @@ AddEventHandler('rsg-moonshiner:client:sellmenu', function(menuid)
         if v.uid == menuid then
             for g,f in pairs(v.shopdata) do
                 local lineintable = {
-					header = "<img src=nui://qr-inventory/html/images/"..f.image.." width=20px>"..f.title..' (price $'..f.price..')',
+                    header = "<img src=nui://qr-inventory/html/images/"..f.image.." width=20px>"..f.title..' (price $'..f.price..')',
                     params = {
                         event = 'rsg-moonshiner:client:sellcount',
                         args = {menuid, f}
@@ -179,7 +192,7 @@ AddEventHandler('rsg-moonshiner:client:sellmenu', function(menuid)
         end
     end
     table.insert(shoptable,closemenu)
-	exports['qr-menu']:openMenu(shoptable)
+    exports['qr-menu']:openMenu(shoptable)
 end)
 
 RegisterNetEvent('rsg-moonshiner:client:sellcount') 
@@ -188,19 +201,19 @@ AddEventHandler('rsg-moonshiner:client:sellcount', function(arguments)
     local data = arguments[2]
     local inputdata = exports['qr-input']:ShowInput({
         header = "Enter the number of 1pc / "..data.price.." $",
-		submitText = "sell",
-		inputs = {
+        submitText = "sell",
+        inputs = {
             {
                 text = data.description,
                 input = "amount",
                 type = "number",
                 isRequired = true
             },
-		}
+        }
     })
     if inputdata ~= nil then
         for k,v in pairs(inputdata) do
-			TriggerServerEvent('rsg-moonshiner:server:sellitem', v,data)
+            TriggerServerEvent('rsg-moonshiner:server:sellitem', v,data)
         end
     end
 end)

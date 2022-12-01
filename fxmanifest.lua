@@ -6,17 +6,16 @@ author 'RexShack#3041'
 description 'rsg-moonshiner'
 
 client_script {
-	'client/client.lua',
-	'client/npc.lua',
+    'client/client.lua',
 }
 
 server_script {
-	'server/server.lua',
-	'@oxmysql/lib/MySQL.lua',
+    'server/server.lua',
+    '@oxmysql/lib/MySQL.lua',
 }
 
 shared_scripts {
-	'config.lua'
+    'config.lua'
 }
 
 dependency 'qr-core'
