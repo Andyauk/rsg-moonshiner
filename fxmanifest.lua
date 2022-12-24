@@ -18,9 +18,9 @@ shared_scripts {
     'config.lua'
 }
 
-dependency 'qr-core'
-dependency 'qr-menu'
-dependency 'qr-input'
+dependency 'rsg-core'
+dependency 'rsg-menu'
+dependency 'rsg-input'
 dependency 'map-moonshineshacks'
 
 lua54 'yes'

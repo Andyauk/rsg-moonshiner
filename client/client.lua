@@ -1,16 +1,16 @@
-local QRCore = exports['qr-core']:GetCoreObject()
+local RSGCore = exports['rsg-core']:GetCoreObject()
 local moonshinekit = 0
 isLoggedIn = false
 PlayerJob = {}
 
-RegisterNetEvent('QRCore:Client:OnPlayerLoaded')
-AddEventHandler('QRCore:Client:OnPlayerLoaded', function()
+RegisterNetEvent('RSGCore:Client:OnPlayerLoaded')
+AddEventHandler('RSGCore:Client:OnPlayerLoaded', function()
     isLoggedIn = true
-    PlayerJob = QRCore.Functions.GetPlayerData().job
+    PlayerJob = RSGCore.Functions.GetPlayerData().job
 end)
 
-RegisterNetEvent('QRCore:Client:OnJobUpdate')
-AddEventHandler('QRCore:Client:OnJobUpdate', function(JobInfo)
+RegisterNetEvent('RSGCore:Client:OnJobUpdate')
+AddEventHandler('RSGCore:Client:OnJobUpdate', function(JobInfo)
     PlayerJob = JobInfo
 end)
 
@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
             if #(pos - objectPos) < 3.0 then
                 awayFromObject = false
                 DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Brew [J]")
-                if IsControlJustReleased(0, QRCore.Shared.Keybinds['J']) then
+                if IsControlJustReleased(0, RSGCore.Shared.Keybinds['J']) then
                     TriggerEvent('rsg-moonshiner:client:craftmenu')
                 end
             end
@@ -76,7 +76,7 @@ Citizen.CreateThread(function()
             if #(pos - objectPos) < 3.0 then
                 awayFromObject = false
                 DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Destroy [J]")
-                if IsControlJustReleased(0, QRCore.Shared.Keybinds['J']) then
+                if IsControlJustReleased(0, RSGCore.Shared.Keybinds['J']) then
                     local player = PlayerPedId()
                     TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 5000, true, false, false, false)
                     Wait(5000)
@@ -84,7 +84,7 @@ Citizen.CreateThread(function()
                     SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
                     DeleteObject(moonshineObject)
                     PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
-                    QRCore.Functions.Notify('moonshine destroyed!', 'primary')
+                    RSGCore.Functions.Notify('moonshine destroyed!', 'primary')
                 end
             end
         end
@@ -96,7 +96,7 @@ end)
 
 -- moonshine menu
 RegisterNetEvent('rsg-moonshiner:client:craftmenu', function(data)
-    exports['qr-menu']:openMenu({
+    exports['rsg-menu']:openMenu({
         {
             header = "| Moonshine |",
             isMenuHeader = true,
@@ -113,7 +113,7 @@ RegisterNetEvent('rsg-moonshiner:client:craftmenu', function(data)
             header = "Close Menu",
             txt = '',
             params = {
-                event = 'qr-menu:closeMenu',
+                event = 'rsg-menu:closeMenu',
             }
         },
     })
@@ -122,9 +122,9 @@ end)
 -- make moonshine
 RegisterNetEvent("rsg-moonshiner:client:moonshine")
 AddEventHandler("rsg-moonshiner:client:moonshine", function()
-    local hasItem1 = QRCore.Functions.HasItem('sugar', 1)
-    local hasItem2 = QRCore.Functions.HasItem('corn', 1)
-    local hasItem3 = QRCore.Functions.HasItem('water', 1)
+    local hasItem1 = RSGCore.Functions.HasItem('sugar', 1)
+    local hasItem2 = RSGCore.Functions.HasItem('corn', 1)
+    local hasItem3 = RSGCore.Functions.HasItem('water', 1)
     if hasItem1 and hasItem2 and hasItem3 then
         local player = PlayerPedId()
         TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), Config.BrewTime, true, false, false, false)
@@ -134,14 +134,14 @@ AddEventHandler("rsg-moonshiner:client:moonshine", function()
         TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
         PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
     else
-        QRCore.Functions.Notify('you don\'t have the ingredients to make this!', 'error')
+        RSGCore.Functions.Notify('you don\'t have the ingredients to make this!', 'error')
     end
 end)
 
 -- sell moonshine vendor
 Citizen.CreateThread(function()
     for k,v in pairs(Config.MoonshineVendor) do
-        exports['qr-core']:createPrompt(v.uid, v.pos, QRCore.Shared.Keybinds['J'], v.header, {
+        exports['rsg-core']:createPrompt(v.uid, v.pos, RSGCore.Shared.Keybinds['J'], v.header, {
             type = 'client',
             event = 'rsg-moonshiner:client:sellmenu',
             args = {v.uid}
@@ -181,7 +181,7 @@ AddEventHandler('rsg-moonshiner:client:sellmenu', function(menuid)
         if v.uid == menuid then
             for g,f in pairs(v.shopdata) do
                 local lineintable = {
-                    header = "<img src=nui://qr-inventory/html/images/"..f.image.." width=20px>"..f.title..' (price $'..f.price..')',
+                    header = "<img src=nui://rsg-inventory/html/images/"..f.image.." width=20px>"..f.title..' (price $'..f.price..')',
                     params = {
                         event = 'rsg-moonshiner:client:sellcount',
                         args = {menuid, f}
@@ -192,14 +192,14 @@ AddEventHandler('rsg-moonshiner:client:sellmenu', function(menuid)
         end
     end
     table.insert(shoptable,closemenu)
-    exports['qr-menu']:openMenu(shoptable)
+    exports['rsg-menu']:openMenu(shoptable)
 end)
 
 RegisterNetEvent('rsg-moonshiner:client:sellcount') 
 AddEventHandler('rsg-moonshiner:client:sellcount', function(arguments)
     local menuid = arguments[1]
     local data = arguments[2]
-    local inputdata = exports['qr-input']:ShowInput({
+    local inputdata = exports['rsg-input']:ShowInput({
         header = "Enter the number of 1pc / "..data.price.." $",
         submitText = "sell",
         inputs = {
