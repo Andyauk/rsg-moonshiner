@@ -20,8 +20,8 @@ local Translations = {
         brew = 'Elaborar [J]',
         destroy = 'Destruir [J]',
         moonshine = '| Moonshine |',
-        make_moonshine = 'Hacer Moonshine',
-        sell_moonshine = 'sell moonshine',
+        make_moonshine = 'Hacer moonshine',
+        sell_moonshine = 'Vender moonshine',
     },
     commands = {
 		    var = 'text goes here',
