@@ -21,12 +21,16 @@ local Translations = {
         destroy = 'Destroy [J]',
         moonshine = '| Moonshine |',
         make_moonshine = 'Make Moonshine',
+        sell_moonshine = 'sell moonshine',
     },
     commands = {
 		    var = 'text goes here',
     },
     progressbar = {
 		    var = 'text goes here',
+    },
+    blip = {
+      moonshine_vendor = 'Moonshine Vendor',
     },
     text = {
         xsugar_1xWater_and_1xcorn = '1 x Sugar 1 x Water and 1 x Corn',

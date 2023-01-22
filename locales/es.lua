@@ -21,6 +21,7 @@ local Translations = {
         destroy = 'Destruir [J]',
         moonshine = '| Moonshine |',
         make_moonshine = 'Hacer Moonshine',
+        sell_moonshine = 'sell moonshine',
     },
     commands = {
 		    var = 'text goes here',
