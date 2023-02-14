@@ -1,4 +1,5 @@
 local RSGCore = exports['rsg-core']:GetCoreObject()
+local isBusy = false
 local moonshinekit = 0
 isLoggedIn = false
 PlayerJob = {}
@@ -119,22 +120,50 @@ RegisterNetEvent('rsg-moonshiner:client:craftmenu', function(data)
     })
 end)
 
+function HasRequirements(requirements)
+    local found_requirements = {}
+    local count = 0
+    local missing = {}
+    for i, require in ipairs(requirements) do
+        if RSGCore.Functions.HasItem(require) then
+            found_requirements[#found_requirements + 1] = require
+            count = count + 1
+        else
+            missing[#missing + 1] = require
+        end
+    end
+
+    if count == #requirements then
+        return true
+    elseif count == 0 then
+        RSGCore.Functions.Notify("You are missing all of the requirements: " .. table.concat(missing, ", "), 'error')
+        return false
+    else
+        RSGCore.Functions.Notify("You are missing the following requirements: " .. table.concat(missing, ", "), 'error')
+        return false
+    end
+end
+
 -- make moonshine
 RegisterNetEvent("rsg-moonshiner:client:moonshine")
 AddEventHandler("rsg-moonshiner:client:moonshine", function()
-    local hasItem1 = RSGCore.Functions.HasItem('sugar', 1)
-    local hasItem2 = RSGCore.Functions.HasItem('corn', 1)
-    local hasItem3 = RSGCore.Functions.HasItem('water', 1)
-    if hasItem1 and hasItem2 and hasItem3 then
-        local player = PlayerPedId()
-        TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), Config.BrewTime, true, false, false, false)
-        Wait(Config.BrewTime)
-        ClearPedTasks(player)
-        SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
-        TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
-        PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
+    if isBusy then
+        return
     else
-        RSGCore.Functions.Notify(Lang:t('error.you_dont_have_the_ingredients_to_make_this'), 'error')
+        local hasItems = HasRequirements({'sugar','corn','water'})
+        if hasItems then
+            isBusy = not isBusy
+            local player = PlayerPedId()
+            TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), Config.BrewTime, true, false, false, false)
+            Wait(Config.BrewTime)
+            ClearPedTasks(player)
+            SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
+            TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
+            PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
+            isBusy = not isBusy
+        else
+            RSGCore.Functions.Notify(Lang:t('error.you_dont_have_the_ingredients_to_make_this'), 'error')
+        end
     end
 end)
 

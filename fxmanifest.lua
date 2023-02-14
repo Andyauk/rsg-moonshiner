@@ -21,9 +21,11 @@ server_script {
     '@oxmysql/lib/MySQL.lua',
 }
 
-dependency 'rsg-core'
-dependency 'rsg-menu'
-dependency 'rsg-input'
-dependency 'map-moonshineshacks'
+dependencies {
+    'rsg-core',
+    'rsg-menu',
+    'rsg-input',
+    'map-moonshineshacks'
+}
 
 lua54 'yes'
