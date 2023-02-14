@@ -5,6 +5,13 @@ game 'rdr3'
 author 'RexShack#3041'
 description 'rsg-moonshiner'
 
+shared_scripts {
+    '@rsg-core/shared/locale.lua',
+    'locales/en.lua',
+    'locales/*.lua',
+    'config.lua',
+}
+
 client_script {
     'client/client.lua',
 }
@@ -12,10 +19,6 @@ client_script {
 server_script {
     'server/server.lua',
     '@oxmysql/lib/MySQL.lua',
-}
-
-shared_scripts {
-    'config.lua'
 }
 
 dependencies {

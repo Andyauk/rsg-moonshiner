@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
             local objectPos = GetEntityCoords(moonshineObject)
             if #(pos - objectPos) < 3.0 then
                 awayFromObject = false
-                DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Brew [J]")
+                DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, Lang:t('menu.brew'))
                 if IsControlJustReleased(0, RSGCore.Shared.Keybinds['J']) then
                     TriggerEvent('rsg-moonshiner:client:craftmenu')
                 end
@@ -76,7 +76,7 @@ Citizen.CreateThread(function()
             local objectPos = GetEntityCoords(moonshineObject)
             if #(pos - objectPos) < 3.0 then
                 awayFromObject = false
-                DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, "Destroy [J]")
+                DrawText3Ds(objectPos.x, objectPos.y, objectPos.z + 1.0, Lang:t('menu.destroy'))
                 if IsControlJustReleased(0, RSGCore.Shared.Keybinds['J']) then
                     local player = PlayerPedId()
                     TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 5000, true, false, false, false)
@@ -85,7 +85,7 @@ Citizen.CreateThread(function()
                     SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
                     DeleteObject(moonshineObject)
                     PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
-                    RSGCore.Functions.Notify('moonshine destroyed!', 'primary')
+                    RSGCore.Functions.Notify(Lang:t('primary.moonshine_destroyed'), 'primary')
                 end
             end
         end
@@ -99,19 +99,19 @@ end)
 RegisterNetEvent('rsg-moonshiner:client:craftmenu', function(data)
     exports['rsg-menu']:openMenu({
         {
-            header = "| Moonshine |",
+            header = Lang:t('menu.moonshine'),
             isMenuHeader = true,
         },
         {
-            header = "Make Moonshine",
-            txt = "1 x Sugar 1 x Water and 1 x Corn",
+            header = Lang:t('menu.make_moonshine'),
+            txt = Lang:t('text.xsugar_1xWater_and_1xcorn'),
             params = {
                 event = 'rsg-moonshiner:client:moonshine',
                 isServer = false,
             }
         },
         {
-            header = "Close Menu",
+            header = Lang:t('menu.close_menu'),
             txt = '',
             params = {
                 event = 'rsg-menu:closeMenu',
@@ -161,8 +161,8 @@ AddEventHandler("rsg-moonshiner:client:moonshine", function()
             TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
             PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
             isBusy = not isBusy
-        --else
-        --    RSGCore.Functions.Notify('you don\'t have the ingredients to make this!', 'error')
+        else
+            RSGCore.Functions.Notify(Lang:t('error.you_dont_have_the_ingredients_to_make_this'), 'error')
         end
     end
 end)
@@ -200,7 +200,7 @@ AddEventHandler('rsg-moonshiner:client:sellmenu', function(menuid)
         },
     }
     local closemenu = {
-        header = "Close menu",
+        header = Lang:t('menu.close_menu'),
         txt = '', 
         params = {
             event = 'qbr-menu:closeMenu',
@@ -210,7 +210,7 @@ AddEventHandler('rsg-moonshiner:client:sellmenu', function(menuid)
         if v.uid == menuid then
             for g,f in pairs(v.shopdata) do
                 local lineintable = {
-                    header = "<img src=nui://rsg-inventory/html/images/"..f.image.." width=20px>"..f.title..' (price $'..f.price..')',
+                    header = "<img src=nui://rsg-inventory/html/images/"..f.image.." width=20px>"..f.title..Lang:t('menu.price')..f.price..')',
                     params = {
                         event = 'rsg-moonshiner:client:sellcount',
                         args = {menuid, f}
@@ -229,8 +229,8 @@ AddEventHandler('rsg-moonshiner:client:sellcount', function(arguments)
     local menuid = arguments[1]
     local data = arguments[2]
     local inputdata = exports['rsg-input']:ShowInput({
-        header = "Enter the number of 1pc / "..data.price.." $",
-        submitText = "sell",
+        header = Lang:t('menu.enter_the_number_of_1pc',{price = data.price}),
+        submitText = Lang:t('text.sell'),
         inputs = {
             {
                 text = data.description,

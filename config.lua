@@ -16,12 +16,12 @@ Config.MoonshineVendor = {
             enable = false,
             blipSprite = 'blip_moonshine',
             blipScale = 0.2,
-            bliptext = "Moonshine Vendor",
+            bliptext = Lang:t('blip.moonshine_vendor'),
         },
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = "sell moonshine",
+                description = Lang:t('blip.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -37,12 +37,12 @@ Config.MoonshineVendor = {
             enable = false,
             blipSprite = 'blip_moonshine',
             blipScale = 0.2,
-            bliptext = "Moonshine Vendor",
+            bliptext = Lang:t('blip.moonshine_vendor'),
         },
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = "sell moonshine",
+                description = Lang:t('blip.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -58,12 +58,12 @@ Config.MoonshineVendor = {
             enable = false,
             blipSprite = 'blip_moonshine',
             blipScale = 0.2,
-            bliptext = "Moonshine Vendor",
+            bliptext = Lang:t('blip.moonshine_vendor'),
         },
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = "sell moonshine",
+                description = Lang:t('blip.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -79,12 +79,12 @@ Config.MoonshineVendor = {
             enable = false,
             blipSprite = 'blip_moonshine',
             blipScale = 0.2,
-            bliptext = "Moonshine Vendor",
+            bliptext = Lang:t('blip.moonshine_vendor'),
         },
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = "sell moonshine",
+                description = Lang:t('blip.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -100,12 +100,12 @@ Config.MoonshineVendor = {
             enable = false,
             blipSprite = 'blip_moonshine',
             blipScale = 0.2,
-            bliptext = "Moonshine Vendor",
+            bliptext = Lang:t('blip.moonshine_vendor'),
         },
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = "sell moonshine",
+                description = Lang:t('blip.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
