@@ -24,10 +24,10 @@ local Translations = {
         sell_moonshine = 'sell moonshine',
     },
     commands = {
-		    var = 'text goes here',
+            var = 'text goes here',
     },
     progressbar = {
-		    var = 'text goes here',
+            var = 'text goes here',
     },
     blip = {
       moonshine_vendor = 'Moonshine Vendor',
