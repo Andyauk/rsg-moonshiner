@@ -21,7 +21,7 @@ Config.MoonshineVendor = {
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = Lang:t('blip.sell_moonshine'),
+                description = Lang:t('menu.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -42,7 +42,7 @@ Config.MoonshineVendor = {
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = Lang:t('blip.sell_moonshine'),
+                description = Lang:t('menu.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -63,7 +63,7 @@ Config.MoonshineVendor = {
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = Lang:t('blip.sell_moonshine'),
+                description = Lang:t('menu.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -84,7 +84,7 @@ Config.MoonshineVendor = {
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = Lang:t('blip.sell_moonshine'),
+                description = Lang:t('menu.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
@@ -105,7 +105,7 @@ Config.MoonshineVendor = {
         shopdata = { -- shop data
             {
                 title = "Moonshine",
-                description = Lang:t('blip.sell_moonshine'),
+                description = Lang:t('menu.sell_moonshine'),
                 price = 6,
                 item = "moonshine",
                 image = "moonshine.png"
