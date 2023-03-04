@@ -1,6 +1,8 @@
 local RSGCore = exports['rsg-core']:GetCoreObject()
 local isBusy = false
 local moonshinekit = 0
+local fx_group = "scr_adv_sok"
+local fx_name = "scr_adv_sok_torchsmoke"
 isLoggedIn = false
 PlayerJob = {}
 
@@ -38,12 +40,9 @@ AddEventHandler('rsg-moonshiner:client:moonshinekit', function(itemName)
         Wait(10000)
         ClearPedTasks(playerPed)
         SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
-        --local pos = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.75, -1.55))
         local pos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.75, -1.55)
-        --local modelHash = `p_still03x`
         local modelHash = GetHashKey(Config.Prop)
         if not HasModelLoaded(modelHash) then
-            -- If the model isnt loaded we request the loading of the model and wait that the model is loaded
             RequestModel(modelHash)
             while not HasModelLoaded(modelHash) do
                 Wait(1)
@@ -52,6 +51,9 @@ AddEventHandler('rsg-moonshiner:client:moonshinekit', function(itemName)
         local prop = CreateObject(modelHash, pos, true)
         SetEntityHeading(prop, GetEntityHeading(PlayerPedId()))
         PlaceObjectOnGroundProperly(prop)
+        Citizen.InvokeNative(0xA10DB07FC234DD12, fx_group)
+        smoke = Citizen.InvokeNative(0xBA32867E86125D3A , fx_name, pos, -2,0.0,0.0, 2.0, false, false, false, true)
+        Citizen.InvokeNative(0x239879FC61C610CC, smoke, 1.0,1.0,1.0, false)
         PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
         moonshinekit = prop
     end
@@ -153,6 +155,7 @@ AddEventHandler("rsg-moonshiner:client:moonshine", function()
         local hasItems = HasRequirements({'sugar','corn','water'})
         if hasItems then
             isBusy = not isBusy
+            Citizen.InvokeNative(0x239879FC61C610CC, smoke, 0.0,0.0,0.0, false)
             local player = PlayerPedId()
             TaskStartScenarioInPlace(player, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), Config.BrewTime, true, false, false, false)
             Wait(Config.BrewTime)
@@ -160,6 +163,7 @@ AddEventHandler("rsg-moonshiner:client:moonshine", function()
             SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
             TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
             PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
+            Citizen.InvokeNative(0x239879FC61C610CC, smoke, 1.0,1.0,1.0, false)
             isBusy = not isBusy
         else
             RSGCore.Functions.Notify(Lang:t('error.you_dont_have_the_ingredients_to_make_this'), 'error')
