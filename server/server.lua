@@ -52,3 +52,9 @@ AddEventHandler('rsg-moonshiner:server:sellitem', function(amount, data)
         TriggerClientEvent('RSGCore:Notify', src, Lang:t('error.must_not_be_a_negative_value'), 'error')
     end
 end)
+
+RegisterServerEvent('rsg-moonshiner:server:startsmoke')
+AddEventHandler('rsg-moonshiner:server:startsmoke', function(coords)
+    local src = source
+    TriggerClientEvent('rsg-moonshiner:client:startsmoke', -1, coords)
+end)

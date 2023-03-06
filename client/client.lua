@@ -3,6 +3,8 @@ local isBusy = false
 local moonshinekit = 0
 local fx_group = "scr_adv_sok"
 local fx_name = "scr_adv_sok_torchsmoke"
+local smoke
+
 isLoggedIn = false
 PlayerJob = {}
 
@@ -51,13 +53,20 @@ AddEventHandler('rsg-moonshiner:client:moonshinekit', function(itemName)
         local prop = CreateObject(modelHash, pos, true)
         SetEntityHeading(prop, GetEntityHeading(PlayerPedId()))
         PlaceObjectOnGroundProperly(prop)
-        Citizen.InvokeNative(0xA10DB07FC234DD12, fx_group)
-        smoke = Citizen.InvokeNative(0xBA32867E86125D3A , fx_name, pos, -2,0.0,0.0, 2.0, false, false, false, true)
-        Citizen.InvokeNative(0x239879FC61C610CC, smoke, 1.0,1.0,1.0, false)
+        TriggerServerEvent('rsg-moonshiner:server:startsmoke', pos)
         PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
         moonshinekit = prop
     end
 end, false)
+
+RegisterNetEvent('rsg-moonshiner:client:startsmoke')
+AddEventHandler('rsg-moonshiner:client:startsmoke', function(smokecoords)
+    UseParticleFxAsset(fx_group)
+    smoke = StartParticleFxLoopedAtCoord(fx_name, smokecoords, -2,0.0,0.0, 2.0, false, false, false, true)
+    Citizen.InvokeNative(0x9DDC222D85D5AF2A, smoke, 10.0)
+    SetParticleFxLoopedAlpha(smoke, 1.0)
+    SetParticleFxLoopedColour(smoke, 1.0,1.0,1.0, false)
+end)
 
 -- create moonshine still / destroy (police only)
 Citizen.CreateThread(function()
@@ -86,7 +95,7 @@ Citizen.CreateThread(function()
                     ClearPedTasks(player)
                     SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
                     DeleteObject(moonshineObject)
-                    Citizen.InvokeNative(0x22970F3A088B133B, smoke, false)
+                    Citizen.InvokeNative(0x22970F3A088B133B, smoke, true)
                     PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
                     RSGCore.Functions.Notify(Lang:t('primary.moonshine_destroyed'), 'primary')
                 end
