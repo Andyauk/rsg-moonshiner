@@ -86,7 +86,7 @@ Citizen.CreateThread(function()
                     ClearPedTasks(player)
                     SetCurrentPedWeapon(player, `WEAPON_UNARMED`, true)
                     DeleteObject(moonshineObject)
-                    Citizen.InvokeNative(0x22970F3A088B133B, smoke, true)
+                    Citizen.InvokeNative(0x22970F3A088B133B, smoke, false)
                     PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
                     RSGCore.Functions.Notify(Lang:t('primary.moonshine_destroyed'), 'primary')
                 end
