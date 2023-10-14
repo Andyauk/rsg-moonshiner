@@ -3,30 +3,38 @@ rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aw
 game 'rdr3'
 
 author 'RexShack#3041'
+Edit 'RMS_dnb'
 description 'rsg-moonshiner'
-version '1.0.0'
+version '1.0.1'
 
 shared_scripts {
+    '@ox_lib/init.lua',
     '@rsg-core/shared/locale.lua',
     'locales/en.lua',
     'locales/*.lua',
     'config.lua',
 }
 
-client_script {
+client_scripts {
+    '@PolyZone/client.lua',
+    '@PolyZone/BoxZone.lua',
+    '@PolyZone/EntityZone.lua',
+    '@PolyZone/CircleZone.lua',
+    '@PolyZone/ComboZone.lua',
     'client/client.lua',
+    'client/mash.lua',
 }
 
-server_script {
+server_scripts {
     'server/server.lua',
+    'server/mash.lua',
     '@oxmysql/lib/MySQL.lua',
 }
 
 dependencies {
     'rsg-core',
-    'rsg-menu',
-    'rsg-input',
-    'map-moonshineshacks'
+    'ox_lib',
+    'rsg-gangmenu'
 }
 
 lua54 'yes'
