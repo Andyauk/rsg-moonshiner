@@ -59,11 +59,7 @@ function HasRequirements(requirements)
 end
 
 -- make moonshine mash
--- make moonshine mash
--- make moonshine mash
--- Make Moonshine Mash
--- Make Moonshine Mash
--- Make Moonshine Mash
+
 AddEventHandler("rsg-moonshinemash:client:moonshinemash", function()
     if isBusy then
         return
