@@ -73,6 +73,7 @@ AddEventHandler("rsg-moonshinemash:client:moonshinemash", function()
 
             Citizen.CreateThread(function()
                 -- Start your animation here (the same animation as Moonshine)
+                LocalPlayer.state:set("inv_busy", true, true)
                 RSGCore.Functions.RequestAnimDict('script_common@shared_scenarios@kneel@mourn@female@a@base')
                 TaskPlayAnimAdvanced(player, 'script_common@shared_scenarios@kneel@mourn@female@a@base', 'base', 
                     playerCoords.x, playerCoords.y, playerCoords.z, 0, 0, 0, 1.0, 1.0, Config.BrewTime, 1, 0, 0, 0)
@@ -96,6 +97,7 @@ AddEventHandler("rsg-moonshinemash:client:moonshinemash", function()
                 }) then
                     -- Give the player some moonshine mash immediately when the timer is done
                     TriggerServerEvent('rsg-moonshinemash:server:givemoonshinemash', 1)
+                    LocalPlayer.state:set("inv_busy", false, true)
 
                     -- Generate a random number between 0 and 1
                     local randomOdds = math.random()
