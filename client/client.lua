@@ -544,6 +544,7 @@ AddEventHandler("rsg-moonshiner:client:moonshine", function()
 
             Citizen.CreateThread(function()
                 -- Start your animation here
+                LocalPlayer.state:set("inv_busy", true, true)
                 RSGCore.Functions.RequestAnimDict('script_common@shared_scenarios@kneel@mourn@female@a@base')
                 TaskPlayAnimAdvanced(player, 'script_common@shared_scenarios@kneel@mourn@female@a@base', 'base', 
                     playerCoords.x, playerCoords.y, playerCoords.z, 0, 0, 0, 1.0, 1.0, Config.BrewTime, 1, 0, 0, 0)
@@ -567,12 +568,13 @@ AddEventHandler("rsg-moonshiner:client:moonshine", function()
                 }) then
                     -- Give the player some moonshine immediately when the timer is done
                     TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
+                    LocalPlayer.state:set("inv_busy", false, true)
 
                     -- Generate a random number between 0 and 1
                     local randomOdds = math.random()
 
                     -- Define a threshold for the police alert
-                    local policeAlertThreshold = 0.5  -- Adjust this value as needed
+                    local policeAlertThreshold = 0.1  -- Adjust this value as needed.  10% chance of police being called
 
                     -- Check if the random number is below the threshold
                     if randomOdds < policeAlertThreshold then
