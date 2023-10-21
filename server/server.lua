@@ -32,28 +32,34 @@ end
 
 -----------------------------------------------------------------------
 
--- use gangtent
+-- use moonshinekit
 RSGCore.Functions.CreateUseableItem("moonshinekit", function(source)
     local src = source
     TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'moonshinekit', `p_still04x`, 'moonshinekit')
 end)
 
--- use hitch post
-RSGCore.Functions.CreateUseableItem("hitchpost", function(source)
+-- use fort post
+RSGCore.Functions.CreateUseableItem("barricade_exp", function(source)
     local src = source
-    TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'hitchpost', `p_hitchingpost01x`, 'hitchpost')
+    TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'barricade_exp', `mp009_p_mp_fort_modular_01x`, 'fortmodular')
 end)
 
--- use cooking station
-RSGCore.Functions.CreateUseableItem("cookstation", function(source)
+-- use camp fort mercer station
+RSGCore.Functions.CreateUseableItem("barricade_avd", function(source)
     local src = source
-    TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'cookstation', `p_campfirecombined03x`, 'cookstation')
+    TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'barricade_avd', `mp005_p_fortmercerbarricade01x`, 'campfortmercer')
 end)
 
--- use camptorch station
-RSGCore.Functions.CreateUseableItem("camptorch", function(source)
+-- use camp barricade 
+RSGCore.Functions.CreateUseableItem("barricade", function(source)
     local src = source
-    TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'camptorch', `p_torchpost01x`, 'camptorch')
+    TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'barricade', `p_barricadewood_lrg01x`, 'campbarricade')
+end)
+
+-- use crafttable
+RSGCore.Functions.CreateUseableItem("crafttable", function(source)
+    local src = source
+    TriggerClientEvent('rsg-moonshine:client:placeNewProp', src, 'crafttable', `p_table05x`, 'crafttable')
 end)
 
 -- get all prop data
@@ -130,7 +136,7 @@ AddEventHandler('rsg-moonshine:server:newProp', function(proptype, location, hea
     end
 
     if PropCount >= Config.MaxPropCount then
-        TriggerClientEvent('RSGCore:Notify', src, 'you have deployed the max amount!', 'error')
+        lib.notify({ title = Lang:t('lang_0'), description = Lang:t('lang_1'), type = 'error' })
     else
         table.insert(Config.PlayerProps, PropData)
         Player.Functions.RemoveItem(proptype, 1)
@@ -219,7 +225,7 @@ AddEventHandler('rsg-moonshine:server:getProps', function()
 
     for i = 1, #result do
         local propData = json.decode(result[i].properties)
-        print('loading '..propData.proptype..' prop with ID: '..propData.id)
+        --print('loading '..propData.proptype..' prop with ID: '..propData.id)
         table.insert(Config.PlayerProps, propData)
     end
 end)
@@ -233,9 +239,9 @@ RegisterNetEvent('rsg-moonshine:server:addcredit', function(newcredit, removemon
     -- sql update
     MySQL.update('UPDATE moonshiner_props SET credit = ? WHERE propid = ?', {newcredit, propid})
     -- notify
-    RSGCore.Functions.Notify(src, 'credit added', 'success')
+    lib.notify({ title = Lang:t('lang_2'), description = Lang:t('lang_3'), type = 'success' })
     Wait(5000)
-    RSGCore.Functions.Notify(src, 'credit is now $'..newcredit, 'primary')
+    lib.notify({ title = Lang:t('lang_4')..newcredit, description = Lang:t('lang_5'), type = 'primary' })
 end)
 
 -- remove credit
@@ -247,9 +253,9 @@ RegisterNetEvent('rsg-moonshine:server:removecredit', function(newcredit, addmon
     -- sql update
     MySQL.update('UPDATE moonshiner_props SET credit = ? WHERE propid = ?', {newcredit, propid})
     -- notify
-    RSGCore.Functions.Notify(src, 'credit removed', 'success')
+    lib.notify({ title = Lang:t('lang_6'), description = Lang:t('lang_7'), type = 'success' })
     Wait(5000)
-    RSGCore.Functions.Notify(src, 'credit is now $'..newcredit, 'primary')
+    lib.notify({ title = Lang:t('lang_4')..newcredit, description = Lang:t('lang_5'), type = 'primary' })
 end)
 
 -- remove item
@@ -321,10 +327,10 @@ AddEventHandler('rsg-moonshiner:server:givemoonshine', function(amount)
         
         Player.Functions.AddItem('moonshine', 2)
         TriggerClientEvent("inventory:client:ItemBox", src, RSGCore.Shared.Items['moonshine'], "add")
-        RSGCore.Functions.Notify(src, Lang:t('success.you_made_some_moonshine'), 'success')
+        lib.notify({ title = Lang:t('lang_8'), description = Lang:t('lang_9'), type = 'success' }) 
     else
-        RSGCore.Functions.Notify(src, Lang:t('error.something_went_wrong'), 'error')
-        print('something went wrong with moonshine script, could be an exploit!')
+        lib.notify({ title = Lang:t('lang_10'), description = Lang:t('lang_11'), type = 'error' })
+        --print('something went wrong with moonshine script, could be an exploit!')
     end
 end)
 

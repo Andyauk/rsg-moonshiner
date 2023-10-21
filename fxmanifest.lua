@@ -3,9 +3,9 @@ rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aw
 game 'rdr3'
 
 author 'RexShack#3041'
-Edit 'RMS_dnb'
+Edit 'RMS_dnb & Sadicius'
 description 'rsg-moonshiner'
-version '1.0.2'
+version '1.0.3'
 
 shared_scripts {
     '@ox_lib/init.lua',
@@ -21,13 +21,11 @@ client_scripts {
     '@PolyZone/EntityZone.lua',
     '@PolyZone/CircleZone.lua',
     '@PolyZone/ComboZone.lua',
-    'client/client.lua',
-    'client/mash.lua',
+    'client/*.lua',
 }
 
 server_scripts {
-    'server/server.lua',
-    'server/mash.lua',
+    'server/*.lua',
     '@oxmysql/lib/MySQL.lua',
 }
 
