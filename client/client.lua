@@ -5,7 +5,6 @@ local SpawnedProps = {}
 local isBusy = false
 local isLoggedIn = false
 local PlayerGang = {}
-local isBusy = false
 local moonshinekit = 0
 local fx_group = "scr_adv_sok"
 local fx_name = "scr_adv_sok_torchsmoke"
@@ -135,7 +134,7 @@ Citizen.CreateThread(function()
         for k, v in pairs(Config.PlayerProps) do
             if v.proptype == 'moonshinekit' then
                 if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true) < 1.3 and not IsPedInAnyVehicle(PlayerPedId(), false) then
-                    lib.showTextUI('['..Config.MenuKeybind..'] - Moonshine Menu', {
+                    lib.showTextUI('['..Config.MenuKeybind..'] -'..Lang:t('lang_15'), {
                         position = "top-center",
                         icon = 'fa-solid fa-bars',
                         style = {
@@ -163,64 +162,49 @@ RegisterNetEvent('rsg-moonshine:client:mainmenu', function(gang)
     if playergang == gang then
         lib.registerContext({
             id = 'moonshiner_mainmenu',
-            title = 'Moonshine Menu',
+            title = Lang:t('lang_15'),
             options = {
-                {
-                    title = 'Make Moonshine',
-                    description = 'hooch',
-                    icon = 'fa-solid fa-skull',
-                    event = 'rsg-moonshiner:client:moonshine',
+
+                {   title = Lang:t('lang_16'),
+                    icon = 'fa-solid fa-boxes-packing',
+                    description = Lang:t('lang_17'),
+                    event = 'rsg-moonshiner:client:moonmenu',
                     args = { gang = playergang },
                     arrow = true
                 },
-                {
-                    title = 'Make Mash',
-                    description = '1 water, 1 sugar, 1 corn',
-                    icon = 'fa-solid fa-bucket',
-                    event = 'rsg-moonshinemash:client:moonshinemash',
-                    args = { gang = playergang },
-                    arrow = true
-                },
-                {
-                    title = 'Moonshine Boss Menu',
-                    description = 'boss can access the menu',
+                {   title = Lang:t('lang_18'),
+                    description = Lang:t('lang_19'),
                     icon = 'fa-solid fa-user-tie',
                     event = 'rsg-gangmenu:client:mainmenu',
                     arrow = true
                 },
-                {
-                    title = 'Moonshine Camp Items',
-                    description = 'moonshine items',
+                {   title = Lang:t('lang_20'),
+                    description = Lang:t('lang_21'),
                     icon = 'fa-solid fa-campground',
                     event = 'rsg-moonshine:client:campitemsmenu',
                     args = { gang = playergang },
                     arrow = true
                 },
-                
             }
         })
         lib.showContext("moonshiner_mainmenu")
     else
         lib.registerContext({
             id = 'moonshiner_robmenu',
-            title = 'Rob Moonshiner Camp Menu',
+            title = Lang:t('lang_22'),
             options = {
-                {
-                    title = 'Rob Moonshine Camp',
-                    description = 'rob this moonshine camp',
+                {   title = Lang:t('lang_23'),
+                    description = Lang:t('lang_24'),
                     icon = 'fa-solid fa-mask',
                     event = 'rsg-moonshine:client:robmoonshiner',
                     args = { gang = gang },
                     arrow = true
                 },
-           
             }
         })
         lib.showContext("moonshiner_robmenu")
     end
 end)
-
-
 
 -- camp deployed
 RegisterNetEvent('rsg-moonshine:client:campitemsmenu')
@@ -238,13 +222,13 @@ AddEventHandler('rsg-moonshine:client:campitemsmenu', function(data)
         end
         lib.registerContext({
             id = 'moonshiner_deployed',
-            title = 'Deployed Items',
+            title = Lang:t('lang_25'),
             menu = 'moonshiner_mainmenu',
             onBack = function() end,
             position = 'top-right',
             options = options
         })
-        lib.showContext('moonshiner_deployed')        
+        lib.showContext('moonshiner_deployed')     
     end
 end)
 
@@ -257,13 +241,13 @@ RegisterNetEvent('rsg-moonshine:client:propmenu', function(data)
             onBack = function() end,
             options = {
                 {
-                    title = 'Credit : $'..result[1].credit,
-                    description = 'current maintenance credit',
+                    title = Lang:t('lang_26')..result[1].credit,
+                    description = Lang:t('lang_27'),
                     icon = 'fa-solid fa-coins',
                 },
                 {
-                    title = 'Add Credit',
-                    description = 'add maintenance credit',
+                    title = Lang:t('lang_28'),
+                    description = Lang:t('lang_29'),
                     icon = 'fa-solid fa-plus',
                     iconColor = 'green',
                     event = 'rsg-moonshine:client:addcredit',
@@ -274,8 +258,8 @@ RegisterNetEvent('rsg-moonshine:client:propmenu', function(data)
                     arrow = true
                 },
                 {
-                    title = 'Remove Credit',
-                    description = 'remove maintenance credit',
+                    title = Lang:t('lang_30'),
+                    description = Lang:t('lang_31'),
                     icon = 'fa-solid fa-minus',
                     iconColor = 'red',
                     event = 'rsg-moonshine:client:removecredit',
@@ -286,8 +270,8 @@ RegisterNetEvent('rsg-moonshine:client:propmenu', function(data)
                     arrow = true
                 },
                 {
-                    title = 'Packup',
-                    description = 'packup camp equiment',
+                    title = Lang:t('lang_32'),
+                    description = Lang:t('lang_33'),
                     icon = 'fa-solid fa-box',
                     iconColor = 'red',
                     serverEvent = 'rsg-moonshine:server:destroyProp',
@@ -308,9 +292,9 @@ end)
 RegisterNetEvent('rsg-moonshine:client:addcredit', function(data)
     local PlayerData = RSGCore.Functions.GetPlayerData()
     local cash = tonumber(PlayerData.money['cash'])
-    local input = lib.inputDialog('Add Credit', {
+    local input = lib.inputDialog(Lang:t('lang_28'), {
         { 
-            label = 'Amount',
+            label = Lang:t('lang_34'),
             type = 'input',
             required = true,
             icon = 'fa-solid fa-dollar-sign'
@@ -329,7 +313,7 @@ RegisterNetEvent('rsg-moonshine:client:addcredit', function(data)
         local creditadjust = data.credit + tonumber(input[1])
         TriggerServerEvent('rsg-moonshine:server:addcredit', creditadjust, tonumber(input[1]), data.propid )
     else
-        RSGCore.Functions.Notify('not enough cash to do this!', 'error')
+        lib.notify({ title = Lang:t('lang_35'), description = Lang:t('lang_36'), type = 'error' })
     end
 end)
 
@@ -337,9 +321,9 @@ end)
 RegisterNetEvent('rsg-moonshine:client:removecredit', function(data)
     local PlayerData = RSGCore.Functions.GetPlayerData()
     local cash = tonumber(PlayerData.money['cash'])
-    local input = lib.inputDialog('Remove Credit', {
+    local input = lib.inputDialog(Lang:t('lang_30'), {
         { 
-            label = 'Amount',
+            label = Lang:t('lang_34'),
             type = 'input',
             required = true,
             icon = 'fa-solid fa-dollar-sign'
@@ -357,7 +341,7 @@ RegisterNetEvent('rsg-moonshine:client:removecredit', function(data)
         local creditadjust = tonumber(data.credit) - tonumber(input[1])
         TriggerServerEvent('rsg-moonshine:server:removecredit', creditadjust, tonumber(input[1]), data.propid )
     else
-        RSGCore.Functions.Notify('you don\'t have that much credit!', 'error')
+        lib.notify({ title = Lang:t('lang_35'), description = Lang:t('lang_37'), type = 'error' })
     end
 end)
 
@@ -378,7 +362,7 @@ AddEventHandler('rsg-moonshine:client:removePropObject', function(prop)
     if lib.progressCircle({
         duration = Config.BrewTime,
         position = 'bottom',
-        label = 'Removing The Equipment...',
+        label = 'Removing The Equipment...', -- Lang:t('lang_38'),
         useWhileDead = false,
         canCancel = false,
         anim = {
@@ -387,7 +371,7 @@ AddEventHandler('rsg-moonshine:client:removePropObject', function(prop)
             flag = 15,
         },
         disableControl = true,
-        text = 'Removing The Equipment...',
+        text = 'Removing The Equipment...', -- Lang:t('lang_38'),
     }) then
         -- Code to execute if the progress circle is successfully started
         print("Removing prop object progress started.")
@@ -413,7 +397,7 @@ AddEventHandler('rsg-moonshine:client:removePropObject', function(prop)
         end
     else
         -- Handle cancelation or failure
-        RSGCore.Functions.Notify("Removing prop object canceled or failed.", 'error')
+        lib.notify({ title = Lang:t('lang_39'), description = Lang:t('lang_40'), type = 'error' })
     end
 end)
 
@@ -429,7 +413,7 @@ AddEventHandler('rsg-moonshine:client:placeNewProp', function(proptype, pHash, i
     local playergang = PlayerData.gang.name
 
     if playergang == 'none' then
-        RSGCore.Functions.Notify('You are not in a gang!', 'error', 3000)
+        lib.notify({ title = Lang:t('lang_41'), description = Lang:t('lang_42'), type = 'error' })
         return
     end
 
@@ -447,7 +431,7 @@ AddEventHandler('rsg-moonshine:client:placeNewProp', function(proptype, pHash, i
         if lib.progressCircle({
             duration = 10000, -- Adjust the duration as needed
             position = 'bottom',
-            label = 'Placing The Equipment...',
+            label = Lang:t('lang_43'),
             useWhileDead = false,
             canCancel = true, -- Allow the player to cancel the action
             disableControl = true,
@@ -461,7 +445,7 @@ AddEventHandler('rsg-moonshine:client:placeNewProp', function(proptype, pHash, i
             isBusy = false
         else
             -- The player canceled the action or it was interrupted
-            RSGCore.Functions.Notify('You canceled or were interrupted while placing the prop.', 'error', 5000)
+            lib.notify({ title = Lang:t('lang_44'), description = Lang:t('lang_45'), type = 'error' })
 
             ClearPedTasks(ped)
             FreezeEntityPosition(ped, false)
@@ -471,7 +455,7 @@ AddEventHandler('rsg-moonshine:client:placeNewProp', function(proptype, pHash, i
         return
     end
 
-    RSGCore.Functions.Notify("Can't place it here!", 'error', 5000)
+    lib.notify({ title = Lang:t('lang_46'), description = Lang:t('lang_47'), type = 'error' })
     Wait(3000)
 end)
 
@@ -520,105 +504,17 @@ AddEventHandler('rsg-moonshine:client:robmoonshiner', function(data)
             if success == true then
                 TriggerServerEvent("inventory:server:OpenInventory", "stash", "gang_" .. data.gang)
             else
-                RSGCore.Functions.Notify('failed, try again!', 'error')
+                lib.notify({ title = Lang:t('lang_48'), description = Lang:t('lang_49'), type = 'error' })
             end
         else
-            RSGCore.Functions.Notify('you need a lockpick to access that!', 'error')
+            lib.notify({ title = Lang:t('lang_50'), description = Lang:t('lang_51'), type = 'error' })
         end
     else
-        RSGCore.Functions.Notify('you can\'t rob your own gang!', 'error')
+        lib.notify({ title = Lang:t('lang_52'), description = Lang:t('lang_53'), type = 'error' })
     end
 end)
 
---make moonshine
-AddEventHandler("rsg-moonshiner:client:moonshine", function()
-    if isBusy then
-        return
-    else
-        local hasItems = HasRequirements({'wood','moonshinemash'})
-        if hasItems then
-            isBusy = not isBusy
-            Citizen.InvokeNative(0x239879FC61C610CC, smoke, 0.0, 0.0, 0.0, false)
-            local player = PlayerPedId()
-            local playerCoords = GetEntityCoords(player)
 
-            Citizen.CreateThread(function()
-                -- Start your animation here
-                LocalPlayer.state:set("inv_busy", true, true)
-                RSGCore.Functions.RequestAnimDict('script_common@shared_scenarios@kneel@mourn@female@a@base')
-                TaskPlayAnimAdvanced(player, 'script_common@shared_scenarios@kneel@mourn@female@a@base', 'base', 
-                    playerCoords.x, playerCoords.y, playerCoords.z, 0, 0, 0, 1.0, 1.0, Config.BrewTime, 1, 0, 0, 0)
-
-                TriggerServerEvent('rsg-moonshiner:server:startsmoke', playerCoords)
-
-                -- Start the progress circle
-                if lib.progressCircle({
-                    duration = Config.BrewTime,
-                    position = 'bottom',
-                    label = 'Brewing Some Moonshine...',
-                    useWhileDead = false,
-                    canCancel = false,
-                    anim = {
-                        dict = 'script_common@shared_scenarios@kneel@mourn@female@a@base',
-                        clip = 'empathise_headshake_f_001',
-                        flag = 15,
-                    },
-                    disableControl = true,
-                    text = 'Brewing Some Moonshine...',
-                }) then
-                    -- Give the player some moonshine immediately when the timer is done
-                    TriggerServerEvent('rsg-moonshiner:server:givemoonshine', 1)
-                    LocalPlayer.state:set("inv_busy", false, true)
-
-                    -- Generate a random number between 0 and 1
-                    local randomOdds = math.random()
-
-                    -- Define a threshold for the police alert
-                    local policeAlertThreshold = 0.1  -- Adjust this value as needed.  10% chance of police being called
-
-                    -- Check if the random number is below the threshold
-                    if randomOdds < policeAlertThreshold then
-                        TriggerServerEvent('police:server:policeAlert', 'moonshine being made')
-                    end
-
-                    PlaySoundFrontend("SELECT", "RDRO_Character_Creator_Sounds", true, 0)
-                    Citizen.InvokeNative(0x239879FC61C610CC, smoke, 1.0, 1.0, 1.0, false)
-                    isBusy = not isBusy
-                else
-                    -- Handle cancelation or failure
-                    RSGCore.Functions.Notify("Brewing canceled or failed.", 'error')
-                end
-            end)
-        else
-            RSGCore.Functions.Notify('You dont have the ingredients to make this')
-        end
-    end
-end)
-
---has requirements
-function HasRequirements(requirements)
-    local found_requirements = {}
-    local count = 0
-    local missing = {}
-    for i, require in ipairs(requirements) do
-        if RSGCore.Functions.HasItem(require) then
-            found_requirements[#found_requirements + 1] = require
-            count = count + 1
-        else
-            missing[#missing + 1] = require
-        end
-    end
-
-    if count == #requirements then
-        return true
-    elseif count == 0 then
-        RSGCore.Functions.Notify("You are missing all of the requirements: " .. table.concat(missing, ", "), 'error')
-        return false
-    else
-        RSGCore.Functions.Notify("You are missing the following requirements: " .. table.concat(missing, ", "), 'error')
-        return false
-    end
-end
 
 -- Start the smoke effect
 
@@ -642,7 +538,5 @@ function StopSmokeEffect()
         smoke = nil
     end
 end
-
-
 
 
