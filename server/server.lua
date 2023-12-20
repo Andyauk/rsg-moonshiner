@@ -241,7 +241,7 @@ RegisterNetEvent('rsg-moonshine:server:addcredit', function(newcredit, removemon
     -- notify
     lib.notify({ title = Lang:t('lang_2'), description = Lang:t('lang_3'), type = 'success' })
     Wait(5000)
-    lib.notify({ title = Lang:t('lang_4')..newcredit, description = Lang:t('lang_5'), type = 'primary' })
+    lib.notify({ title = Lang:t('lang_4')..newcredit, description = Lang:t('lang_5'), type = 'inform' })
 end)
 
 -- remove credit
@@ -255,7 +255,7 @@ RegisterNetEvent('rsg-moonshine:server:removecredit', function(newcredit, addmon
     -- notify
     lib.notify({ title = Lang:t('lang_6'), description = Lang:t('lang_7'), type = 'success' })
     Wait(5000)
-    lib.notify({ title = Lang:t('lang_4')..newcredit, description = Lang:t('lang_5'), type = 'primary' })
+    lib.notify({ title = Lang:t('lang_4')..newcredit, description = Lang:t('lang_5'), type = 'inform' })
 end)
 
 -- remove item
